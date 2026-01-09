@@ -85,7 +85,10 @@ func extractCuratedHistory(comprehensiveHistory []*Content) ([]*Content, error) 
 		return []*Content{}, nil
 	}
 
-	curatedHistory := []*Content{}
+	// Pre-allocate curatedHistory with a capacity of the full history length.
+	// This is a performance optimization to avoid slice re-allocation.
+	// The number of elements will be at most the length of the comprehensive history.
+	curatedHistory := make([]*Content, 0, len(comprehensiveHistory))
 	length := len(comprehensiveHistory)
 	i := 0
 	for i < length {
